@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Ivy Cellar — your wine cellar on iPhone and Mac</title>
-<meta name="description" content="The Ivy Cellar is a private wine-cellar app for iPhone and Mac. Every bottle with its drinking window, a map of where it grows, vintage charts and cellar sharing with friends. No accounts, no servers, no tracking.">
+<meta name="description" content="The Ivy Cellar is a private wine-cellar app for iPhone and Mac. Every bottle with its drinking window, a map of where it grows, vintage charts, the weather behind each vintage, an optional AI sommelier and cellar sharing with friends. Built by a wine lover for his own cellar first. No accounts, no servers, no tracking.">
 <meta name="theme-color" content="#F5EFE4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#17130F" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Ivy Cellar">
 <meta property="og:title" content="The Ivy Cellar — your wine cellar on iPhone and Mac">
-<meta property="og:description" content="Every bottle with its drinking window, a map of where it grows, and what to open this month. Private by design.">
+<meta property="og:description" content="Every bottle with its drinking window, a map of where it grows, and what to open this month. A wine lover's cellar book, private by design.">
 <meta property="og:image" content="https://theivycellar.com/img/og.png">
 <meta property="og:image:alt" content="The Ivy Cellar on iPhone and Mac">
 <meta name="twitter:card" content="summary_large_image">
@@ -142,6 +142,24 @@ section{position:relative}
 .lock{display:flex;gap:8px;align-items:center;margin-top:16px;font-size:13px;color:var(--soft)}
 .lock svg{width:14px;height:14px;flex:none}
 
+/* Sommelier, Learn and Buying illustrations */
+.ill{width:min(440px,100%);background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px 24px 20px;box-shadow:var(--shadow)}
+.ill .tag{display:inline-block;font:600 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--soft);border:1px solid var(--line);border-radius:999px;padding:5px 10px;margin-bottom:16px}
+.ask{background:var(--page);border:1px solid var(--line);border-radius:16px 16px 4px 16px;padding:11px 14px;font-size:15px;margin:0 0 14px auto;max-width:85%;width:fit-content}
+.ill .mini li{font-size:14px}
+.ill .why{display:block;color:var(--soft);font:400 13px/1.45 var(--sans);margin-top:3px}
+.ill .q{font-size:13px}
+.ill .cap{font-size:12px;color:var(--soft);margin:14px 0 0;line-height:1.45}
+.levels{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.lesson{border-top:1px solid var(--line);padding:12px 0}
+.lesson:last-of-type{padding-bottom:0}
+.lesson .w{font:600 16px/1.3 var(--serif);display:block}
+.lesson .r{font-size:13px;color:var(--soft)}
+.meter{height:8px;border-radius:999px;background:var(--line);overflow:hidden;margin-top:7px}
+.meter i{display:block;height:100%;border-radius:999px;background:var(--past)}
+.meter i.ok{background:var(--ready)}
+.thin{color:var(--past);font-weight:600}
+
 /* Privacy band */
 .band{background:var(--band);color:var(--band-ink)}
 .band h2{color:var(--band-ink)}
@@ -205,6 +223,7 @@ footer a:hover{color:var(--ink)}
     <nav class="nav" aria-label="Main">
       <a class="link" href="#features">Features</a>
       <a class="link" href="#atlas">Atlas</a>
+      <a class="link" href="#sommelier">Sommelier</a>
       <a class="link" href="#community">Community</a>
       <a class="link" href="#privacy">Privacy</a>
       <a class="btn btn-primary" href="mailto:johnbarrios88@gmail.com?subject=The%20Ivy%20Cellar%20beta" aria-label="Request an invitation"><span class="long">Request an invitation</span><span class="short" aria-hidden="true">Request invite</span></a>
@@ -220,7 +239,7 @@ footer a:hover{color:var(--ink)}
     <div class="copy reveal">
       <p class="eyebrow">For iPhone and Mac</p>
       <h1 id="hero-title">Know what you have, and when to open it.</h1>
-      <p class="lede">The Ivy Cellar keeps every bottle with its drinking window, shows where it grows, and picks what to open this month. Your cellar stays on your devices and in your own iCloud.</p>
+      <p class="lede">The Ivy Cellar keeps every bottle with its drinking window, shows where it grows and what the weather did that year, and picks what to open this month. Your cellar stays on your devices and in your own iCloud.</p>
       <div class="actions">
         <a class="btn btn-primary" href="mailto:johnbarrios88@gmail.com?subject=The%20Ivy%20Cellar%20beta">Request an invitation</a>
         <a class="btn btn-quiet" href="#features">See what it does</a>
@@ -275,13 +294,28 @@ footer a:hover{color:var(--ink)}
         <!-- GRAPHIC: icon, sommelier -->
         <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l-.5 5.5a3.5 3.5 0 0 1-7 0z"/><path d="M12 12v7M8.5 20.5h7"/></svg></div>
         <h3>Sommelier</h3>
-        <p>Pairings, flights from verticals to horizontals, a buying guide, and short lessons.</p>
+        <p>Ask about your cellar, pair a dish with wines you own, or find dishes for a bottle.</p>
       </article>
       <article class="card reveal">
         <!-- GRAPHIC: icon, AI research -->
         <div class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7c-2-1.4-5-2-8.5-2v12.5c3.5 0 6.5.6 8.5 2V7Z"/><path d="M12 7c1-.7 2.2-1.2 3.5-1.5M20.5 10.5v7c-3.5 0-6.5.6-8.5 2"/><path d="m19 2.5.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9Z"/></svg></div>
         <h3>Research, if you want it</h3>
         <p>With your own Claude or OpenAI key, it reads labels and receipts and looks up wines and producers.</p>
+      </article>
+      <article class="card reveal">
+        <div class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><path d="M8 2v1.5M8 12.5V14M2 8h1.5M12.5 8H14M3.8 3.8l1 1M11.2 11.2l1 1M3.8 12.2l1-1M11.2 4.8l1-1"/><path d="M14 21c.8-1.8 1-3 1-3M18 21c.8-1.8 1-3 1-3M16.5 15.5a3.5 3.5 0 1 0-1.2-6.8"/></svg></div>
+        <h3>Growing seasons</h3>
+        <p>The weather behind each vintage: warmth, rain at flowering, summer and harvest, heat and cold nights.</p>
+      </article>
+      <article class="card reveal">
+        <div class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 9 12 4.5 21.5 9 12 13.5Z"/><path d="M6.5 11v4.5c1.5 1.5 3.5 2.2 5.5 2.2s4-.7 5.5-2.2V11"/><path d="M21.5 9v5.5"/></svg></div>
+        <h3>Learn</h3>
+        <p>Lessons built from the bottles you own, and guides to regions and grapes, for newcomers to experts.</p>
+      </article>
+      <article class="card reveal">
+        <div class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 4h2l2.2 10.5h10.8L20.5 7H6.6"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg></div>
+        <h3>Buying guide</h3>
+        <p>Which regions are running thin at the pace you drink, and which recent vintages to look for.</p>
       </article>
     </div>
   </div>
@@ -331,7 +365,7 @@ footer a:hover{color:var(--ink)}
     <div class="copy reveal">
       <p class="eyebrow">Atlas</p>
       <h2 id="atlas-title">See where your wine grows</h2>
-      <p>A map of vineyards and producers, with appellation and vineyard boundaries for many wine regions. The places your bottles come from are highlighted.</p>
+      <p>A label names a place. The Atlas shows it: a map of vineyards and producers, with appellation and vineyard boundaries for many wine regions. The places your bottles come from are highlighted.</p>
       <p class="note" style="margin-top:0">US AVAs, Bordeaux, Italy, Spain, Germany, Australia, New Zealand, Chile, Argentina, South Africa and more.</p>
     </div>
   </section>
@@ -349,7 +383,22 @@ footer a:hover{color:var(--ink)}
     </div>
   </section>
 
-  <section class="row" aria-labelledby="wine-title">
+  <section class="row" id="weather" aria-labelledby="weather-title">
+    <div class="media reveal">
+      <div class="phone">
+        <img src="shots/iphone-season-details.jpg" width="1206" height="2622" loading="lazy" alt="Season details for 2016 in Langhe (Barolo, Barbaresco) on iPhone: 2,110 degree days against a normal of 2,050, no days above 35 °C, rain by stage from winter through flowering, summer and harvest against normal, and three cold nights below 0 °C in spring.">
+      </div>
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow">Growing seasons</p>
+      <h2 id="weather-title">The weather behind every vintage</h2>
+      <p>Every bottle comes from one summer. The Ivy Cellar shows how that summer went in the wine's region: how warm the season ran against the 1991–2020 normal, how much rain fell at flowering, through summer and at harvest, and any heat spells or spring cold nights.</p>
+      <p>Open Season Details for the numbers, stage by stage. You'll find the season on each wine's page, under each year of the vintage chart, and beside vineyards in the Atlas.</p>
+      <p class="note" style="margin-top:0">Measured weather, not a verdict: regional ERA5 data from Copernicus, via Open-Meteo (CC BY 4.0). Built into the app, so it works offline.</p>
+    </div>
+  </section>
+
+  <section class="row flip" aria-labelledby="wine-title">
     <div class="media reveal">
       <div class="phone">
         <img src="shots/iphone-wine.jpg" width="1206" height="2622" loading="lazy" alt="A wine page on iPhone for the 2016 Giacomo Conterno Barolo Cascina Francia: marked ready, three bottles in offsite storage, a drinking window bar from 2026 to 2050, and an Open a Bottle button.">
@@ -359,7 +408,81 @@ footer a:hover{color:var(--ink)}
       <p class="eyebrow">Wine page</p>
       <h2 id="wine-title">Everything about a wine, in one place</h2>
       <p>Each wine has its own page: the window, the bottles and where they sit, what you paid, and your tasting notes. Open a bottle and the cellar updates.</p>
-      <p>Add your own Claude or OpenAI key and the app can read a label or a receipt for you, and research a wine or producer, with critics' scores, a suggested window, and the sources it used. Requests go straight from your device to the company you chose, and it is entirely optional.</p>
+    </div>
+  </section>
+
+  <section class="row" id="sommelier" aria-labelledby="sommelier-title">
+    <div class="media reveal">
+      <div class="ill" role="img" aria-label="Example: asking what to open with roast lamb, and the sommelier suggesting two wines from your own cellar with a reason for each.">
+        <span class="tag" aria-hidden="true">Example</span>
+        <p class="ask" aria-hidden="true">Roast lamb with rosemary on Saturday. What should I open?</p>
+        <ul class="mini" aria-hidden="true">
+          <li><span class="w">2016 Giacomo Conterno Barolo Cascina Francia<span class="why">Firm tannin and bright acidity cut the fat; rosemary meets its herbal edge. Decant for two hours.</span></span><span class="q">3 in cellar</span></li>
+          <li><span class="w">2021 G.D. Vajra Langhe Nebbiolo<span class="why">The same grape, younger and lighter, if it's a weeknight.</span></span><span class="q">6 in cellar</span></li>
+        </ul>
+        <p class="cap" aria-hidden="true">Only wines you own are suggested, and each answer says which model wrote it.</p>
+      </div>
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow">AI sommelier</p>
+      <h2 id="sommelier-title">A sommelier who knows your cellar</h2>
+      <p>Ask anything about what you own, and get answers that name your bottles. Tell it what's for dinner and it picks two to four wines you actually have, saying why each works with the sauce and seasoning, not just the meat. Or start from a bottle and it suggests dishes, serving temperature, glass and how long to decant.</p>
+      <p>Research fills in each wine and producer: critics' scores with their own windows, the technical sheet, vintage reports and links to every source.</p>
+      <ul class="ticks">
+        <li><span class="dot ready" aria-hidden="true"></span><span><span class="k">Your key, your choice.</span> Works with your own Claude or OpenAI account.</span></li>
+        <li><span class="dot young" aria-hidden="true"></span><span><span class="k">Straight to the provider.</span> Requests go from your device to the company you chose, never to us.</span></li>
+        <li><span class="dot past" aria-hidden="true"></span><span><span class="k">Optional.</span> Everything else works without it.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="row flip" id="learn" aria-labelledby="learn-title">
+    <div class="media reveal">
+      <div class="ill" role="img" aria-label="Example: lessons at the enthusiast level, each built from wines in your cellar, such as Barolo against Barbaresco, and a Barolo vertical.">
+        <span class="tag" aria-hidden="true">Example</span>
+        <div class="levels" aria-hidden="true"><span class="chip">Newcomer</span><span class="chip on">Enthusiast</span><span class="chip">Expert</span></div>
+        <div class="lesson" aria-hidden="true"><span class="w">Barolo and Barbaresco, side by side</span><span class="r">Same grape, neighbouring hills · 3 of your wines</span></div>
+        <div class="lesson" aria-hidden="true"><span class="w">What ten years does to Nebbiolo</span><span class="r">Young against mature · 2 of your wines</span></div>
+        <div class="lesson" aria-hidden="true"><span class="w">Reading a Mosel label</span><span class="r">Prädikat, vineyard and sweetness · your Scharzhofberger</span></div>
+        <p class="cap" aria-hidden="true">Each lesson ends with which bottles to open together.</p>
+      </div>
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow">Learn</p>
+      <h2 id="learn-title">Learn from the bottles you own</h2>
+      <p>The best way to learn wine is to taste with a purpose. Learn proposes short lessons built from your own cellar: the same grape in two places, one producer across vintages, the effect of age. Each ends with the bottles to open side by side.</p>
+      <p>Guides to regions and grapes explain climate, soils, styles and how to read the labels (crus, MGAs, Prädikat, AVAs), then relate it all to the wines you hold. In the Atlas, any vineyard can be described in a few lines. Choose newcomer, enthusiast or expert, and the writing follows.</p>
+    </div>
+  </section>
+
+  <section class="row" id="buying" aria-labelledby="buying-title">
+    <div class="media reveal">
+      <div class="ill" role="img" aria-label="Example buying guide: Burgundy red ready bottles last about seven months at your pace, with 2019 and 2020 suggested; Barolo lasts about four years.">
+        <span class="tag" aria-hidden="true">Example</span>
+        <div class="lesson" style="border-top:0;padding-top:0" aria-hidden="true">
+          <span class="w">Burgundy red</span>
+          <span class="r"><span class="thin">Running thin</span> · ready bottles last about 7 months</span>
+          <div class="meter"><i style="width:14%"></i></div>
+          <span class="r" style="display:block;margin-top:8px">Look for 2019 and 2020: good years, now in their window.</span>
+        </div>
+        <div class="lesson" aria-hidden="true">
+          <span class="w">Barolo</span>
+          <span class="r">About 4 years at your pace</span>
+          <div class="meter"><i class="ok" style="width:62%"></i></div>
+        </div>
+        <div class="lesson" aria-hidden="true">
+          <span class="w">German Riesling</span>
+          <span class="r">About 2 years at your pace</span>
+          <div class="meter"><i class="ok" style="width:36%"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow">Buying and flights</p>
+      <h2 id="buying-title">Buy what you'll run out of</h2>
+      <p>The buying guide counts the ready bottles in each region against how fast you drink, shows which regions will run dry within a year and which are deep, and names the recent good vintages already in their window.</p>
+      <p>Flights finds tastings you can pour tonight: verticals of one wine across years, horizontals of one appellation and vintage, and a house's wines side by side. Add one of each to the pull list and fetch them in one trip.</p>
+      <p class="note" style="margin-top:0">No AI needed: worked out on your device from your own cellar.</p>
     </div>
   </section>
 
@@ -387,13 +510,26 @@ footer a:hover{color:var(--ink)}
     <div class="copy reveal">
       <p class="eyebrow">Community</p>
       <h2 id="community-title">Compare cellars with friends</h2>
-      <p>Share your cellar with a friend, read-only, and compare. See what you both hold, what only they hold, what only you hold, and the same wine in other years.</p>
+      <p>Share your cellar with a friend, read-only, and compare. See what you both hold, what only they hold, what only you hold, and the same wine in other years. Useful before a dinner where everyone brings a bottle.</p>
       <p>Only the wines are shared. Prices, places and notes stay with you.</p>
     </div>
   </section>
 
 </div>
 </div>
+
+<!-- MAKER'S NOTE -->
+<section class="section maker" id="maker" aria-labelledby="maker-title">
+  <div class="wrap">
+    <div class="section-head reveal" style="margin-bottom:0">
+      <p class="eyebrow">From the maker</p>
+      <span class="sprig" aria-hidden="true"></span>
+      <h2 id="maker-title">Made for one cellar first</h2>
+      <p class="lede">I am a university professor who studies economics and finance. Away from work it is wine, food, and the history of places and their vineyards. The Ivy Cellar began as the cellar book for my own bottles: Barolo, Burgundy, some Mosel, and whatever else found its way in. I wanted to know what was ready, where each vineyard sits, and what the weather did the year it was picked.</p>
+      <p class="lede">A few habits from the day job came along. Sources are cited. Critics' scores are kept as facts, with links. The research is told to say only what it is confident is true.</p>
+    </div>
+  </div>
+</section>
 
 <!-- PRIVACY BAND -->
 <div class="ivy-rule" aria-hidden="true"></div>
@@ -443,7 +579,7 @@ footer a:hover{color:var(--ink)}
   <div class="wrap reveal">
     <img src="img/icon.png" width="88" height="88" alt="The Ivy Cellar app icon" loading="lazy">
     <h2 id="cta-title">Join the beta</h2>
-    <p class="lede">The Ivy Cellar is free and in a small private beta on TestFlight, for iPhone and Mac. Write and ask for an invitation.</p>
+    <p class="lede">The Ivy Cellar is free and in a small private beta on TestFlight, for iPhone and Mac. Write and ask for an invitation; a line about what you collect is always welcome.</p>
     <a class="btn btn-primary" href="mailto:johnbarrios88@gmail.com?subject=The%20Ivy%20Cellar%20beta">Request an invitation</a>
     <img class="bottles" src="graphics/bottles-hero.svg" alt="" width="540" height="240">
   </div>
