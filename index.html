@@ -3,23 +3,474 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Ivy Cellar</title>
+<title>The Ivy Cellar — your wine cellar on iPhone and Mac</title>
+<meta name="description" content="The Ivy Cellar is a private wine-cellar app for iPhone and Mac. Every bottle with its drinking window, a map of where it grows, vintage charts and cellar sharing with friends. No accounts, no servers, no tracking.">
+<meta name="theme-color" content="#F5EFE4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17130F" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="img/icon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Ivy Cellar">
+<meta property="og:title" content="The Ivy Cellar — your wine cellar on iPhone and Mac">
+<meta property="og:description" content="Every bottle with its drinking window, a map of where it grows, and what to open this month. Private by design.">
+<meta property="og:image" content="https://theivycellar.com/img/og.png">
+<meta property="og:image:alt" content="The Ivy Cellar on iPhone and Mac">
+<meta name="twitter:card" content="summary_large_image">
 <style>
-  :root { --page: #F5EFE4; --ink: #2A211A; --soft: #5F544A; --accent: #8A2A3D; }
-  @media (prefers-color-scheme: dark) { :root { --page: #17130F; --ink: #F3EDE3; --soft: #B9ADA0; --accent: #E39AAA; } }
-  body { margin: 0; background: var(--page); color: var(--ink); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }
-  main { max-width: 640px; margin: 0 auto; padding: 64px 16px; }
-  h1 { font-family: Georgia, "New York", serif; font-weight: 600; font-size: 34px; margin: 0 0 8px; }
-  p { color: var(--soft); margin: 0 0 12px; }
-  a { color: var(--accent); }
+:root{
+  --page:#F5EFE4; --card:#FFFDF8; --line:#E2D8C7; --ink:#2A211A; --soft:#5F544A;
+  --accent:#8A2A3D; --accent-ink:#FFFDF8; --accent-wash:rgba(138,42,61,.08);
+  --ready:#2B6B48; --young:#36618C; --past:#8C5418; --ivy:#1E3A2B;
+  --band:#1E3A2B; --band-ink:#F3EDE3; --band-soft:#C9D3C8;
+  --header:rgba(245,239,228,.82);
+  --shadow:0 1px 2px rgba(42,33,26,.06),0 12px 32px -12px rgba(42,33,26,.18);
+  --serif:ui-serif,"New York",Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;
+  --wrap:1160px; --gut:clamp(16px,4vw,40px);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --page:#17130F; --card:#2A241F; --line:#3E352D; --ink:#F3EDE3; --soft:#B9ADA0;
+    --accent:#E39AAA; --accent-ink:#17130F; --accent-wash:rgba(227,154,170,.10);
+    --ready:#7CC39A; --young:#8DB4DC; --past:#E0A86A;
+    --band:#14241B; --band-ink:#F3EDE3; --band-soft:#B7C4B9;
+    --header:rgba(23,19,15,.82);
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 16px 40px -12px rgba(0,0,0,.6);
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--page);color:var(--ink);font:400 17px/1.6 var(--sans);overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--accent);text-underline-offset:3px}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;letter-spacing:-.01em;margin:0;text-wrap:balance}
+p{margin:0 0 1em}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+.skip{position:absolute;left:-9999px;top:8px;z-index:100;background:var(--card);padding:8px 14px;border-radius:8px}
+.skip:focus{left:12px}
+.eyebrow{font:600 12px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin:0 0 14px}
+.lede{font-size:clamp(18px,2vw,20px);color:var(--soft);max-width:34em}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font:600 16px/1.2 var(--sans);text-decoration:none;transition:transform .2s ease,background-color .2s ease}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{transform:translateY(-1px)}
+.btn-quiet{color:var(--ink);border:1px solid var(--line);background:var(--card)}
+.btn-quiet:hover{border-color:var(--soft)}
+.note{font-size:14px;color:var(--soft);margin-top:14px}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:50;background:var(--header);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+.site-header .wrap{display:flex;align-items:center;gap:24px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font:600 18px/1 var(--serif);white-space:nowrap}
+.brand img{width:30px;height:30px;border-radius:7px}
+.nav{display:flex;gap:22px;margin-left:auto;align-items:center}
+.nav a{color:var(--soft);text-decoration:none;font-size:15px}
+.nav a:hover{color:var(--ink)}
+.nav .btn{padding:8px 16px;font-size:14px;color:var(--accent-ink)}
+@media (max-width:760px){.nav .link{display:none}.nav{gap:0}}
+.btn{white-space:nowrap}
+.nav .short{display:none}
+@media (max-width:420px){.brand span{font-size:16px}.nav .btn{padding:8px 13px;font-size:13px}.nav .long{display:none}.nav .short{display:inline}}
+
+/* Hero */
+.hero{padding:clamp(48px,8vw,104px) 0 clamp(56px,8vw,96px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(32px,5vw,64px);align-items:center}
+.hero h1{font-size:clamp(38px,4.4vw,58px);margin-bottom:22px}
+.hero .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}}
+
+.stage{position:relative;padding:0 14% 9% 0}
+.mac{filter:drop-shadow(0 2px 3px rgba(42,33,26,.10)) drop-shadow(0 28px 40px rgba(42,33,26,.20))}
+@media (prefers-color-scheme:dark){.mac{filter:drop-shadow(0 28px 48px rgba(0,0,0,.6))}}
+.stage .phone{position:absolute;right:0;bottom:0;width:29%}
+
+/* CSS iPhone frame */
+.phone{background:#1C1815;border-radius:15% / 7%;padding:3.6%;box-shadow:0 0 0 1px #3a332c inset,0 2px 4px rgba(42,33,26,.12),0 30px 50px -18px rgba(42,33,26,.45)}
+.phone img{border-radius:12% / 5.6%;width:100%;background:#F5EFE4}
+@media (prefers-color-scheme:dark){.phone{box-shadow:0 0 0 1px #4a4038 inset,0 30px 50px -18px rgba(0,0,0,.8)}}
+
+/* Feature grid */
+section{position:relative}
+.section{padding:clamp(64px,9vw,120px) 0}
+.section-head{max-width:40em;margin-bottom:clamp(32px,5vw,56px)}
+.section-head h2{font-size:clamp(32px,4vw,46px);margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 24px 22px}
+.card h3{font-size:21px;margin:16px 0 8px}
+.card p{color:var(--soft);font-size:16px;margin:0}
+.icon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--accent-wash);color:var(--accent)}
+.icon svg{width:22px;height:22px}
+
+/* Feature rows */
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:center;padding:clamp(56px,8vw,104px) 0;border-bottom:1px solid var(--line)}
+.row.flip .media{order:2}
+.row h2{font-size:clamp(30px,3.6vw,42px);margin-bottom:16px}
+.row .copy p{color:var(--soft)}
+.row .media{display:flex;justify-content:center}
+.row .media .phone{width:min(300px,72vw)}
+.row .media .mac{width:100%}
+.ticks{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:10px}
+.ticks li{display:flex;gap:12px;align-items:baseline;color:var(--ink);font-size:16px}
+.dot{flex:none;width:10px;height:10px;border-radius:50%;transform:translateY(1px)}
+.dot.ready{background:var(--ready)}.dot.young{background:var(--young)}.dot.past{background:var(--past)}
+.ticks .k{font-weight:600}
+@media (max-width:860px){.row{grid-template-columns:1fr}.row.flip .media{order:0}.row .media{order:0}}
+
+/* Community illustration */
+.compare{width:min(440px,100%);background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}
+.compare .who{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:600 14px/1 var(--sans);color:#FFFDF8}
+.av.you{background:var(--ivy)}.av.mark{background:#8A2A3D;margin-left:-8px;box-shadow:0 0 0 3px var(--card)}
+@media (prefers-color-scheme:dark){.av.you{background:#3E6B52}}
+.compare .who strong{font:600 18px/1.2 var(--serif)}
+.compare .who span{display:block;font-size:13px;color:var(--soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px;color:var(--soft);background:var(--page)}
+.chip b{color:var(--ink);font-weight:600;margin-left:4px}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip.on b{color:var(--accent-ink)}
+.mini{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.mini li{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+.mini li:last-child{border-bottom:0;padding-bottom:0}
+.mini .w{font:600 15px/1.3 var(--serif)}
+.mini .r{color:var(--soft);font-size:13px;display:block;font-family:var(--sans);font-weight:400}
+.mini .q{color:var(--soft);white-space:nowrap;align-self:center}
+.lock{display:flex;gap:8px;align-items:center;margin-top:16px;font-size:13px;color:var(--soft)}
+.lock svg{width:14px;height:14px;flex:none}
+
+/* Privacy band */
+.band{background:var(--band);color:var(--band-ink)}
+.band h2{color:var(--band-ink)}
+.band .lede,.band p{color:var(--band-soft)}
+.band .eyebrow{color:var(--band-soft)}
+.promises{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:rgba(243,237,227,.16);border:1px solid rgba(243,237,227,.16);border-radius:18px;overflow:hidden;margin-top:40px}
+.promises div{background:var(--band);padding:24px 22px}
+.promises h3{font-size:22px;margin-bottom:6px;color:var(--band-ink)}
+.promises p{font-size:15px;margin:0}
+@media (max-width:860px){.promises{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.promises{grid-template-columns:1fr}}
+.band a{color:var(--band-ink)}
+
+/* Devices band */
+.devices{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,6vw,80px);align-items:center}
+.devices .stage{padding:0 10% 6% 0}
+.devices .stage .phone{width:24%}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:22px 28px;margin-top:28px}
+.specs h3{font:600 15px/1.3 var(--sans);margin-bottom:4px}
+.specs p{font-size:15px;color:var(--soft);margin:0}
+@media (max-width:900px){.devices{grid-template-columns:1fr}.devices .copy{order:-1}}
+@media (max-width:420px){.specs{grid-template-columns:1fr}}
+
+/* CTA */
+.cta{text-align:center}
+.cta img:not(.bottles){width:88px;height:88px;border-radius:20px;margin:0 auto 26px;box-shadow:var(--shadow)}
+.cta h2{font-size:clamp(34px,4.6vw,54px);margin-bottom:16px}
+.cta .lede{margin:0 auto 30px}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:32px 0 40px;font-size:14px;color:var(--soft)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center}
+footer nav{display:flex;gap:20px}
+footer a{color:var(--soft)}
+footer a:hover{color:var(--ink)}
+
+/* Motion: only when JS runs and motion is welcome */
+@media (prefers-reduced-motion:no-preference){
+  .js .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .js .reveal.in{opacity:1;transform:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+
+  .sprig { display:block; width:120px; height:46px; margin:6px 0 14px; color:#2B6B48; background:currentColor;
+    -webkit-mask:url(graphics/ivy-sprig.svg) left center/contain no-repeat; mask:url(graphics/ivy-sprig.svg) left center/contain no-repeat; }
+  .cta .sprig { margin-left:auto; margin-right:auto; }
+  .ivy-rule { height:40px; background:#2B6B48; opacity:.5; -webkit-mask:url(graphics/ivy-border.svg) left center/auto 40px repeat-x; mask:url(graphics/ivy-border.svg) left center/auto 40px repeat-x; margin:0 auto; max-width:1100px; }
+  .bottles { display:block; width:min(560px,100%); height:auto; margin:48px auto 0; }
+  @media (prefers-color-scheme: dark) { .sprig { color:#6FAF8A } .ivy-rule { background:#6FAF8A } }
 </style>
 </head>
 <body>
-<main>
-<h1>The Ivy Cellar</h1>
-<p>A private wine-cellar app for iPhone and Mac: your bottles and when to drink them, a vintage chart, an atlas of vineyards, and a way to compare cellars with friends.</p>
-<p>It's in a small private beta through TestFlight.</p>
-<p><a href="/privacy/">Privacy policy</a></p>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="The Ivy Cellar, home">
+      <img src="img/icon.png" width="30" height="30" alt="">
+      <span>The Ivy Cellar</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a class="link" href="#features">Features</a>
+      <a class="link" href="#atlas">Atlas</a>
+      <a class="link" href="#community">Community</a>
+      <a class="link" href="#privacy">Privacy</a>
+      <a class="btn btn-primary" href="mailto:johnbarrios88@gmail.com?subject=The%20Ivy%20Cellar%20beta" aria-label="Request an invitation"><span class="long">Request an invitation</span><span class="short" aria-hidden="true">Request invite</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div class="copy reveal">
+      <p class="eyebrow">For iPhone and Mac</p>
+      <h1 id="hero-title">Know what you have, and when to open it.</h1>
+      <p class="lede">The Ivy Cellar keeps every bottle with its drinking window, shows where it grows, and picks what to open this month. Your cellar stays on your devices and in your own iCloud.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="mailto:johnbarrios88@gmail.com?subject=The%20Ivy%20Cellar%20beta">Request an invitation</a>
+        <a class="btn btn-quiet" href="#features">See what it does</a>
+      </div>
+      <p class="note">Free. A small private beta on TestFlight, by invitation.</p>
+    </div>
+    <!-- GRAPHIC: hero device composition (Mac window + iPhone). Swap for a designed composite if one is made. -->
+    <div class="stage reveal" role="group" aria-label="The Ivy Cellar on Mac and iPhone">
+      <img class="mac" src="shots/mac-cellar.jpg" width="2360" height="1662" alt="The Ivy Cellar on Mac: a sidebar of sections, the cellar shown as racks grouped by region with bottles as coloured dots, and the page for a 2021 G.D. Vajra Langhe Nebbiolo with its drinking window, 2023 to 2028." fetchpriority="high">
+      <div class="phone">
+        <img src="shots/iphone-overview.jpg" width="1206" height="2622" alt="The Ivy Cellar on iPhone: the Overview, with 112 bottles of 40 wines from 38 producers and the most-held bottles drawn in a row.">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE GRID -->
+<section class="section" id="features" aria-labelledby="features-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">What it does</p>
+      <span class="sprig" aria-hidden="true"></span>
+      <h2 id="features-title">A cellar book that keeps up with you</h2>
+      <p class="lede">Everything you need to know about the bottles you own, kept in one quiet place.</p>
+    </div>
+    <div class="grid">
+      <article class="card reveal">
+        <!-- GRAPHIC: icon, drinking window -->
+        <div class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="11" width="19" height="6.5" rx="3.25"/><path d="M8.5 14.25h6" stroke-width="2.5"/><path d="M10.5 5.5h4L12.5 8Z"/></svg></div>
+        <h3>Drinking windows</h3>
+        <p>Each wine marked ready, too young or past peak, adjusted for bottle size.</p>
+      </article>
+      <article class="card reveal">
+        <!-- GRAPHIC: icon, cellar racks -->
+        <div class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="8.5" r="2"/><circle cx="12" cy="8.5" r="2"/><circle cx="19" cy="8.5" r="2"/><circle cx="5" cy="15.5" r="2"/><circle cx="12" cy="15.5" r="2"/><circle cx="19" cy="15.5" r="2"/><path d="M2.5 20.5h19"/><circle cx="12" cy="8.5" r=".4" fill="currentColor"/></svg></div>
+        <h3>List, gallery and racks</h3>
+        <p>Browse by wine, by label, or by bin, with every bottle coloured by readiness.</p>
+      </article>
+      <article class="card reveal">
+        <!-- GRAPHIC: icon, atlas -->
+        <div class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20Z"/><path d="M9 4v13.5"/><path d="M15 15s-3-2.8-3-5a3 3 0 0 1 6 0c0 2.2-3 5-3 5Z"/><circle cx="15" cy="10" r=".4" fill="currentColor"/></svg></div>
+        <h3>Atlas</h3>
+        <p>Appellation and vineyard boundaries for wine regions worldwide, with your bottles on the map.</p>
+      </article>
+      <article class="card reveal">
+        <!-- GRAPHIC: icon, vintage chart -->
+        <div class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/><path d="M9 9h6v6H9Z" fill="currentColor" stroke="none" opacity=".35"/><path d="M15 3h3.5A2.5 2.5 0 0 1 21 5.5V9h-6Z" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Vintage chart</h3>
+        <p>How each year went in each region, with your bottles placed on their vintages.</p>
+      </article>
+      <article class="card reveal">
+        <!-- GRAPHIC: icon, sommelier -->
+        <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l-.5 5.5a3.5 3.5 0 0 1-7 0z"/><path d="M12 12v7M8.5 20.5h7"/></svg></div>
+        <h3>Sommelier</h3>
+        <p>Pairings, flights from verticals to horizontals, a buying guide, and short lessons.</p>
+      </article>
+      <article class="card reveal">
+        <!-- GRAPHIC: icon, AI research -->
+        <div class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7c-2-1.4-5-2-8.5-2v12.5c3.5 0 6.5.6 8.5 2V7Z"/><path d="M12 7c1-.7 2.2-1.2 3.5-1.5M20.5 10.5v7c-3.5 0-6.5.6-8.5 2"/><path d="m19 2.5.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9Z"/></svg></div>
+        <h3>Research, if you want it</h3>
+        <p>With your own Claude or OpenAI key, it reads labels and receipts and looks up wines and producers.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE ROWS -->
+<div class="wrap">
+<div class="rows">
+
+  <section class="row" aria-labelledby="windows-title">
+    <div class="media reveal">
+      <img class="mac" src="shots/mac-overview.jpg" width="2360" height="1520" loading="lazy" alt="The Overview on Mac: lists headed Drink now, Open one to test, and Ready from this year, each wine with its window, beside totals for bottles, wines, producers and value and a chart of reds, whites and rosés.">
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow">Overview</p>
+      <h2 id="windows-title">Open each bottle at its best</h2>
+      <p>Every wine carries a drinking window, adjusted for the size of the bottle. The Overview gathers what to drink now and what to open to check how it is coming along.</p>
+      <p>This month suggests up to three wines to open, whether they are at home or need fetching from storage.</p>
+      <ul class="ticks">
+        <li><span class="dot ready" aria-hidden="true"></span><span><span class="k">Ready.</span> In its window now.</span></li>
+        <li><span class="dot young" aria-hidden="true"></span><span><span class="k">Too young.</span> Worth the wait.</span></li>
+        <li><span class="dot past" aria-hidden="true"></span><span><span class="k">Past peak.</span> Open it soon.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="row flip" aria-labelledby="racks-title">
+    <div class="media reveal">
+      <div class="phone">
+        <img src="shots/iphone-racks.jpg" width="1206" height="2622" loading="lazy" alt="The cellar on iPhone shown as racks: Piedmont bins for Barolo, Barbaresco and Langhe, and Burgundy bins for Bourgogne, Chablis, Volnay and Meursault, each bottle a small dot.">
+      </div>
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow">Cellar</p>
+      <h2 id="racks-title">Your cellar, rack by rack</h2>
+      <p>See the whole collection at a glance. Racks group bottles into bins by region and appellation, and each bottle is a dot coloured by readiness, so the ones to open stand out.</p>
+      <p>Prefer words or labels? Switch to the list or the gallery at any time.</p>
+    </div>
+  </section>
+
+  <section class="row" id="atlas" aria-labelledby="atlas-title">
+    <div class="media reveal">
+      <div class="phone">
+        <img src="shots/iphone-atlas-napa.jpg" width="1206" height="2622" loading="lazy" alt="The Atlas on iPhone: a map of Northern California with American Viticultural Areas shaded by family, Napa Valley and Sonoma Coast outlined as regions you hold, and wineries marked.">
+      </div>
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow">Atlas</p>
+      <h2 id="atlas-title">See where your wine grows</h2>
+      <p>A map of vineyards and producers, with appellation and vineyard boundaries for many wine regions. The places your bottles come from are highlighted.</p>
+      <p class="note" style="margin-top:0">US AVAs, Bordeaux, Italy, Spain, Germany, Australia, New Zealand, Chile, Argentina, South Africa and more.</p>
+    </div>
+  </section>
+
+  <section class="row flip" aria-labelledby="vintage-title">
+    <div class="media reveal">
+      <div class="phone">
+        <img src="shots/iphone-vintages.jpg" width="1206" height="2622" loading="lazy" alt="The Vintage Chart on iPhone: rows for Langhe Nebbiolo, Burgundy red, Chianti Classico, Bordeaux left bank, German Riesling and Napa Cabernet, each a strip of coloured squares by year, with dots under the years you own.">
+      </div>
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow">Vintage chart</p>
+      <h2 id="vintage-title">Every vintage, with your bottles on it</h2>
+      <p>Each region you collect gets a row of years, shaded by how the vintage went. Your bottles sit on their years, so you can see at a glance whether you hold the good ones.</p>
+    </div>
+  </section>
+
+  <section class="row" aria-labelledby="wine-title">
+    <div class="media reveal">
+      <div class="phone">
+        <img src="shots/iphone-wine.jpg" width="1206" height="2622" loading="lazy" alt="A wine page on iPhone for the 2016 Giacomo Conterno Barolo Cascina Francia: marked ready, three bottles in offsite storage, a drinking window bar from 2026 to 2050, and an Open a Bottle button.">
+      </div>
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow">Wine page</p>
+      <h2 id="wine-title">Everything about a wine, in one place</h2>
+      <p>Each wine has its own page: the window, the bottles and where they sit, what you paid, and your tasting notes. Open a bottle and the cellar updates.</p>
+      <p>Add your own Claude or OpenAI key and the app can read a label or a receipt for you, and research a wine or producer, with critics' scores, a suggested window, and the sources it used. Requests go straight from your device to the company you chose, and it is entirely optional.</p>
+    </div>
+  </section>
+
+  <section class="row flip" id="community" aria-labelledby="community-title">
+    <div class="media reveal">
+      <!-- GRAPHIC: Community compare illustration (HTML/CSS). Replace with designed asset or a real screenshot when available. -->
+      <div class="compare" role="img" aria-label="Illustration of comparing cellars with a friend named Mark: 23 wines you both hold, 41 only Mark holds, 160 only you hold.">
+        <div class="who" aria-hidden="true">
+          <div style="display:flex"><span class="av you">Y</span><span class="av mark">M</span></div>
+          <div><strong>You and Mark</strong><span>Mark's cellar, shared with you</span></div>
+        </div>
+        <div class="chips" aria-hidden="true">
+          <span class="chip on">Both<b>23</b></span>
+          <span class="chip">Only Mark<b>41</b></span>
+          <span class="chip">Only you<b>160</b></span>
+        </div>
+        <ul class="mini" aria-hidden="true">
+          <li><span class="w">2016 Barolo Cascina Francia<span class="r">Barolo · Piedmont</span></span><span class="q">You 3 · Mark 2</span></li>
+          <li><span class="w">2019 Scharzhofberger Spätlese<span class="r">Saar · Mosel</span></span><span class="q">You 3 · Mark 6</span></li>
+          <li><span class="w">2015 Barolo<span class="r">Same wine, other years</span></span><span class="q">Mark: 2013, 2017</span></li>
+        </ul>
+        <p class="lock" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>Prices, places and notes are never shared.</p>
+      </div>
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow">Community</p>
+      <h2 id="community-title">Compare cellars with friends</h2>
+      <p>Share your cellar with a friend, read-only, and compare. See what you both hold, what only they hold, what only you hold, and the same wine in other years.</p>
+      <p>Only the wines are shared. Prices, places and notes stay with you.</p>
+    </div>
+  </section>
+
+</div>
+</div>
+
+<!-- PRIVACY BAND -->
+<div class="ivy-rule" aria-hidden="true"></div>
+<section class="section band" id="privacy" aria-labelledby="privacy-title">
+  <div class="wrap">
+    <div class="section-head reveal" style="margin-bottom:0">
+      <p class="eyebrow">Privacy</p>
+      <h2 id="privacy-title">Your cellar stays yours</h2>
+      <p class="lede">There is nothing to sign up for and nowhere else for your data to go. It lives on your devices and in your own private iCloud.</p>
+    </div>
+    <div class="promises reveal">
+      <div><h3>No accounts</h3><p>Open the app and start adding wine.</p></div>
+      <div><h3>No servers</h3><p>Your devices sync through your own iCloud.</p></div>
+      <div><h3>No ads</h3><p>No ads, ever.</p></div>
+      <div><h3>No tracking</h3><p>No analytics in the app or on this site.</p></div>
+    </div>
+    <p class="note reveal" style="margin-top:22px">Read the <a href="/privacy/">privacy policy</a>.</p>
+  </div>
+</section>
+
+<!-- DEVICES BAND -->
+<section class="section" aria-labelledby="devices-title">
+  <div class="wrap devices">
+    <!-- GRAPHIC: secondary device composition (Mac + iPhone). -->
+    <div class="stage reveal" role="group" aria-label="The Ivy Cellar on Mac and iPhone together">
+      <img class="mac" src="shots/mac-overview.jpg" width="2360" height="1520" loading="lazy" alt="The Overview on Mac, with what to drink now and cellar totals.">
+      <div class="phone">
+        <img src="shots/iphone-cellar.jpg" width="1206" height="2622" loading="lazy" alt="The cellar on iPhone as a list: Bartolo Mascarello Barolo, Benanti Etna Rosso, Biondi-Santi Brunello and others, each marked ready with its window.">
+      </div>
+    </div>
+    <div class="copy reveal">
+      <p class="eyebrow">iPhone and Mac</p>
+      <h2 id="devices-title" style="font-size:clamp(30px,3.6vw,42px);margin-bottom:16px">Built for iPhone and Mac</h2>
+      <p class="lede">Check what you have from the wine shop on your phone, then plan the month on the Mac at home.</p>
+      <div class="specs">
+        <div><h3>Bring your cellar</h3><p>Import from CellarTracker or any spreadsheet.</p></div>
+        <div><h3>Works offline</h3><p>Everything is on the device, even in the cellar.</p></div>
+        <div><h3>Your devices, in step</h3><p>Syncs through your private iCloud.</p></div>
+        <div><h3>Backups</h3><p>Save your whole cellar, pictures included, to one file whenever you like.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section cta" aria-labelledby="cta-title" style="border-top:1px solid var(--line)">
+  <div class="wrap reveal">
+    <img src="img/icon.png" width="88" height="88" alt="The Ivy Cellar app icon" loading="lazy">
+    <h2 id="cta-title">Join the beta</h2>
+    <p class="lede">The Ivy Cellar is free and in a small private beta on TestFlight, for iPhone and Mac. Write and ask for an invitation.</p>
+    <a class="btn btn-primary" href="mailto:johnbarrios88@gmail.com?subject=The%20Ivy%20Cellar%20beta">Request an invitation</a>
+    <img class="bottles" src="graphics/bottles-hero.svg" alt="" width="540" height="240">
+  </div>
+</section>
+
 </main>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0">© 2026 The Ivy Cellar</p>
+    <nav aria-label="Footer">
+      <a href="/privacy/">Privacy policy</a>
+      <a href="mailto:johnbarrios88@gmail.com?subject=The%20Ivy%20Cellar">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  if(!('IntersectionObserver' in window)) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var d=document.documentElement; d.classList.add('js');
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{rootMargin:'0px 0px -8% 0px',threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+})();
+</script>
 </body>
 </html>
