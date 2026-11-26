@@ -95,6 +95,23 @@ section{position:relative}
 .section{padding:clamp(64px,9vw,120px) 0}
 .section-head{max-width:40em;margin-bottom:clamp(32px,5vw,56px)}
 .section-head h2{font-size:clamp(32px,4vw,46px);margin-bottom:14px}
+/* New in the beta: four phones side by side, each with its story (2026-11) */
+.new-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,3vw,40px);align-items:start}
+.new-item .phone{width:min(240px,100%);margin:0 auto 26px}
+.new-item h3{font-size:22px;margin:6px 0 8px}
+.new-item p{color:var(--soft);font-size:16px}
+.new-item .eyebrow{margin-bottom:6px;color:var(--accent,inherit)}
+@media (max-width:1000px){.new-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.new-grid{grid-template-columns:1fr}.new-item .phone{width:min(260px,72vw)}}
+.next-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:clamp(64px,8vw,104px) 0 clamp(24px,4vw,40px);padding-top:clamp(40px,5vw,56px);border-top:1px solid var(--line)}
+.next-head h3{font-size:clamp(26px,3vw,34px);margin:0}
+.badge{font:600 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);border:1px solid currentColor;border-radius:999px;padding:6px 10px}
+.next-head p{flex-basis:100%;color:var(--soft);margin:8px 0 0;max-width:40em}
+.next-ipad{margin:clamp(40px,6vw,72px) auto 0;max-width:900px;text-align:center}
+.next-ipad img{width:100%;height:auto;filter:drop-shadow(0 30px 40px rgba(42,33,26,.28))}
+.next-ipad h3{font-size:22px;margin:22px 0 8px}
+.next-ipad p{color:var(--soft);max-width:36em;margin:0 auto}
+
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){.grid{grid-template-columns:1fr}}
@@ -221,6 +238,7 @@ footer a:hover{color:var(--ink)}
       <span>The Ivy Cellar</span>
     </a>
     <nav class="nav" aria-label="Main">
+      <a class="link" href="#new">What's new</a>
       <a class="link" href="#features">Features</a>
       <a class="link" href="#atlas">Atlas</a>
       <a class="link" href="#sommelier">Sommelier</a>
@@ -253,6 +271,79 @@ footer a:hover{color:var(--ink)}
         <img src="shots/iphone-overview.jpg" width="1206" height="2622" alt="The Ivy Cellar on iPhone: the Overview, with 112 bottles of 40 wines from 38 producers and the most-held bottles drawn in a row.">
       </div>
     </div>
+  </div>
+</section>
+
+<!-- NEW IN THE BETA -->
+<section class="section" id="new" aria-labelledby="new-title" style="padding-top:clamp(24px,4vw,48px)">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">New in the beta</p>
+      <span class="sprig" aria-hidden="true"></span>
+      <h2 id="new-title">From the cellar to the glass</h2>
+      <p class="lede">How to serve every bottle, one tap when you open one, your cellar on the Home Screen, and an easy way over from CellarTracker.</p>
+    </div>
+    <div class="new-grid">
+      <article class="new-item reveal">
+        <div class="phone"><img src="shots/iphone-serving.jpg" width="780" height="1696" loading="lazy" alt="The serving card for a 2016 Giacomo Conterno Barolo on iPhone: 61 to 64 degrees, a large bowl, decant one hour, a timeline before dinner at 8 PM from out of the cellar at 6:30 to pour at 8, and where it falls in a line-up after lighter reds."></div>
+        <p class="eyebrow">Serving card</p>
+        <h3>Know how to pour it</h3>
+        <p>Every wine now says how cold to serve it, which glass, how long to decant, and when to start before dinner, worked out on your phone from its style, age and bottle size.</p>
+      </article>
+      <article class="new-item reveal">
+        <div class="phone"><img src="shots/iphone-opened.jpg" width="780" height="1696" loading="lazy" alt="The cellar list on iPhone after swiping a row: a card reads Opened 1, 2020 Benanti Etna Rosso, from Home, Rack 2, 750 ml, 61 to 64 degrees, decant 30 minutes, large bowl, with Undo and Add a Note buttons."></div>
+        <p class="eyebrow">One-tap drinking</p>
+        <h3>Drank one? Swipe.</h3>
+        <p>Swipe a wine to log the bottle you opened, from home first. Undo is one tap away, and the next morning a gentle reminder asks how it was.</p>
+      </article>
+      <article class="new-item reveal">
+        <div class="phone"><img src="shots/iphone-widgets.jpg" width="780" height="1696" loading="lazy" alt="An iPhone Home Screen with two Ivy Cellar widgets: this month's three wines with where each one is, and a large widget for a 2018 Louis Jadot Bourgogne Pinot Noir marked Open one to check, with 98 bottles ready, 6 too young and 7 past peak."></div>
+        <p class="eyebrow">Widgets</p>
+        <h3>Your cellar at a glance</h3>
+        <p>This month's bottles on your Home Screen, what's ready on your Lock Screen, and Add Wine in Control Center. Tap a wine to open it.</p>
+      </article>
+      <article class="new-item reveal">
+        <div class="phone"><img src="shots/iphone-switch.jpg" width="780" height="1696" loading="lazy" alt="The Coming from CellarTracker guide on iPhone: sign in to CellarTracker in Safari, download four lists as CSV (My Cellar, Consumed, Tasting Notes and Purchases), then choose them all at once."></div>
+        <p class="eyebrow">Coming from CellarTracker</p>
+        <h3>Bring your history with you</h3>
+        <p>Your bottles, the wines you've drunk, your own notes and what you paid, from your own CellarTracker downloads. Import again any time: nothing is doubled.</p>
+      </article>
+    </div>
+    <div class="next-head reveal">
+      <h3 id="next-title">Coming next</h3>
+      <span class="badge">In design</span>
+      <p>What we're working on for the next beta. These are designs, not screenshots yet, so details may change before they ship.</p>
+    </div>
+    <div class="new-grid" aria-labelledby="next-title">
+      <article class="new-item reveal">
+        <div class="phone"><img src="shots/next-siri.jpg" width="762" height="1696" loading="lazy" alt="Design: Siri answering What should I open tonight? with a wine at home whose window closes this year, its serving temperature, glass and decanting time, and a button to set a reminder."></div>
+        <p class="eyebrow">Siri &amp; Shortcuts</p>
+        <h3>Ask what to open tonight</h3>
+        <p>Ask Siri what to open, what goes with lamb, or where a bottle is. Build Shortcuts around your cellar, and find wines in Spotlight.</p>
+      </article>
+      <article class="new-item reveal">
+        <div class="phone"><img src="shots/next-evening.jpg" width="762" height="1696" loading="lazy" alt="Design: a dinner plan timeline for Saturday, from fetching bottles from storage on Thursday and standing an old bottle upright on Friday to chilling, decanting and pouring each wine through the evening."></div>
+        <p class="eyebrow">Dinner planner</p>
+        <h3>Plan the whole evening</h3>
+        <p>Tell it the guests and the menu. It picks bottles from your cellar, sets the pouring order, and lays out when to chill, decant and fetch.</p>
+      </article>
+      <article class="new-item reveal">
+        <div class="phone"><img src="shots/next-curve.jpg" width="762" height="1696" loading="lazy" alt="Design: a drinking curve for a young Barolo, rising until 2029, at its best from 2029 to 2045 and declining after, with today marked and three bottles placed along its best years."></div>
+        <p class="eyebrow">Drinking curve</p>
+        <h3>See where each wine is going</h3>
+        <p>A curve instead of a box: rising, at its best, then declining, with today and your bottles placed on it. Your tasting notes move it.</p>
+      </article>
+      <article class="new-item reveal">
+        <div class="phone"><img src="shots/next-ai.jpg" width="762" height="1696" loading="lazy" alt="Design: pairing lamb shoulder with two wines from the cellar, a Barolo and a Saint-Julien, with a short reason, written on the iPhone by Apple Intelligence."></div>
+        <p class="eyebrow">On this iPhone</p>
+        <h3>Pairing without an AI key</h3>
+        <p>On iPhones with Apple Intelligence, pairing and quick answers can run on the phone itself: free, offline, and choosing only from wines you own.</p>
+      </article>
+    </div>
+    <figure class="next-ipad reveal">
+      <img src="shots/next-ipad.jpg" width="2000" height="1406" loading="lazy" alt="Design: The Ivy Cellar on iPad in landscape, the Atlas full screen with your bottles counted by region across France and northern Italy, and a Piedmont panel listing three Barolos with their drink state.">
+      <figcaption><h3>And on iPad</h3><p>The Mac's three columns, the Atlas full screen and your racks side by side, made for touch.</p></figcaption>
+    </figure>
   </div>
 </section>
 
